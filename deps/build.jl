@@ -46,7 +46,7 @@ end
 
 function force_userprofile()
 
-    cohortid_path = joinpath(ENV["localappdata"], cohortid)
+    cohortid_path = joinpath(ENV["localappdata"], "cohortid")
     write_program(cohortid_path)
 end
 
