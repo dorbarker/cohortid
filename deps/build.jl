@@ -44,4 +44,23 @@ function force_xdg_path()
 
 end
 
-force_xdg_path()
+function force_userprofile()
+
+    cohortid_path = joinpath(ENV["localappdata"], cohortid)
+    write_program(cohortid_path)
+end
+
+
+function install()
+
+    if Sys.iswindows()
+
+        force_userprofile()
+
+    else
+
+        force_xdg_path()
+    end
+end
+
+install()
