@@ -403,7 +403,7 @@ function main(cli)
 	metadata = begin
 		column_of_interest = args["variable"]
 		metadata_path = args["metadata"]
-		_metadata = CSV.File(metadata_path, delim=args["delimiter"] |> DataFrame
+		_metadata = CSV.File(metadata_path, delim=args["delimiter"]) |> DataFrame
 		select(_metadata, "isolate", column_of_interest)
 	end
 
