@@ -194,10 +194,10 @@ function format_output(
 end
 
 
-function write_output(out_table::DataFrame, out_path::String)
+function write_output(out_table::DataFrame, out_path::String, delimiter)
 
 	sort!(out_table, [:cohort, :threshold, :cluster])
-	CSV.write(out_path, out_table)
+	CSV.write(out_path, out_table; delim=delimiter)
 end
 
 
@@ -308,7 +308,7 @@ end
 function arguments(cli)
 
 	s = ArgParseSettings()
-	
+
 	s.version = project().version
 	s.add_version = true
 
@@ -358,10 +358,14 @@ function arguments(cli)
 		"--output", "-o"
 			arg_type = String
 			required = true
+
+		"--delimiter", "-d"
+			arg_type = String
+			default = "\t"
 	end
 
 	args = parse_args(cli, s)
-	
+
 	global size_1 = args["size-1"]
 	global size_2 = args["size-2"]
 	global pos_1 = args["pos-1"]
@@ -375,7 +379,7 @@ function arguments(cli)
 
 	global posΔ_sizeΔ_ratio = (posΔ / sizeΔ)
 	global negΔ_sizeΔ_ratio = (negΔ / sizeΔ)
-	
+
 	args
 end
 
@@ -388,7 +392,7 @@ function main(cli)
 
 	clusters = begin
 		cluster_path = args["clusters"]
-		CSV.read(cluster_path, DataFrame)
+		CSV.File(cluster_path, delim=args["delimiter"]) |>  DataFrame
 	end
 
 
@@ -399,7 +403,7 @@ function main(cli)
 	metadata = begin
 		column_of_interest = args["variable"]
 		metadata_path = args["metadata"]
-		_metadata = CSV.read(metadata_path, DataFrame)
+		_metadata = CSV.File(metadata_path, delim=args["delimiter"] |> DataFrame
 		select(_metadata, "isolate", column_of_interest)
 	end
 
