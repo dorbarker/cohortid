@@ -194,7 +194,7 @@ function format_output(
 end
 
 
-function write_output(out_table::DataFrame, out_path::String, delimiter)
+function write_output(out_table::DataFrame, out_path::String, delimiter::String)
 
 	sort!(out_table, [:cohort, :threshold, :cluster])
 	CSV.write(out_path, out_table; delim=delimiter)
@@ -309,7 +309,7 @@ function arguments(cli)
 
 	s = ArgParseSettings()
 
-	s.version = "0.2.2"
+	s.version = "0.2.3"
 	s.add_version = true
 
 	@add_arg_table! s begin
@@ -426,7 +426,7 @@ function main(cli)
 		positive_value
 	)
 
-	write_output(output_df, args["output"])
+	write_output(output_df, args["output"], args["delimiter"])
 end
 
 end
