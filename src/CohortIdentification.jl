@@ -1,6 +1,6 @@
 module CohortIdentification
 
-import Pkg.project
+import Pkg
 using ArgParse
 using CSV
 using ArgParse
@@ -309,7 +309,7 @@ function arguments(cli)
 
 	s = ArgParseSettings()
 
-	s.version = project().version
+	s.version = "0.2.2"
 	s.add_version = true
 
 	@add_arg_table! s begin
